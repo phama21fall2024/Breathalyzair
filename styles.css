@@ -539,3 +539,15 @@ footer {
   font-size: 1rem;
   line-height: 1.5;
 }
+
+.navbar__logo {
+    display: flex;
+    align-items: center;
+  }
+  
+  .navbar__logo-image {
+    height: 40px; 
+    width: auto;
+    margin-right: 10px; 
+  }
+  
