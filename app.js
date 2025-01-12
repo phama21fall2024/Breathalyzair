@@ -1,24 +1,22 @@
-
 const EMAILJS_CONFIG = {
-    userID: "oAF0i4QiMqH1BOox5",
-    serviceID: "service_fcatscb",
-    templateID: "template_9rcj1jh",
+  userID: "oAF0i4QiMqH1BOox5",
+  serviceID: "service_fcatscb",
+  templateID: "template_9rcj1jh",
 };
 
 emailjs.init(EMAILJS_CONFIG.userID);
 
 document.addEventListener("DOMContentLoaded", () => {
-    
-    const contactBtn = document.querySelector(".contact-page__button");
+  const contactBtn = document.querySelector(".contact-page__button");
 
-    if (!contactBtn) {
-        console.error("Contact button not found!");
-        return;
-    }
+  if (!contactBtn) {
+    console.error("Contact button not found!");
+    return;
+  }
 
-    const popupOverlay = document.createElement("div");
-    popupOverlay.className = "contact-popup-overlay";
-    popupOverlay.innerHTML = `
+  const popupOverlay = document.createElement("div");
+  popupOverlay.className = "contact-popup-overlay";
+  popupOverlay.innerHTML = `
         <div class="contact-popup">
             <button class="close-btn">&times;</button>
             <h2>Contact Us</h2>
@@ -34,42 +32,45 @@ document.addEventListener("DOMContentLoaded", () => {
         </div>
     `;
 
-    document.body.appendChild(popupOverlay);
+  document.body.appendChild(popupOverlay);
 
-    const closeBtn = popupOverlay.querySelector(".close-btn");
+  const closeBtn = popupOverlay.querySelector(".close-btn");
 
-    contactBtn.addEventListener("click", () => popupOverlay.classList.add("active"));
-    closeBtn.addEventListener("click", () => popupOverlay.classList.remove("active"));
-    popupOverlay.addEventListener("click", (e) => {
-        if (e.target === popupOverlay) {
-            popupOverlay.classList.remove("active");
-        }
-    });
+  contactBtn.addEventListener("click", () =>
+    popupOverlay.classList.add("active")
+  );
+  closeBtn.addEventListener("click", () =>
+    popupOverlay.classList.remove("active")
+  );
+  popupOverlay.addEventListener("click", (e) => {
+    if (e.target === popupOverlay) {
+      popupOverlay.classList.remove("active");
+    }
+  });
 
-    const form = document.querySelector("#contact-form");
-    form.addEventListener("submit", (event) => {
-        event.preventDefault();
+  const form = document.querySelector("#contact-form");
+  form.addEventListener("submit", (event) => {
+    event.preventDefault();
 
-      
-        const formData = new FormData(form);
-        const data = {
-            from_email: formData.get("email"),
-            name: formData.get("name"),
-            phone: formData.get("phone"),
-        };
+    const formData = new FormData(form);
+    const data = {
+      from_email: formData.get("email"),
+      name: formData.get("name"),
+      phone: formData.get("phone"),
+    };
 
-        console.log("Sending data to EmailJS:", data);
+    console.log("Sending data to EmailJS:", data);
 
-        emailjs.send(EMAILJS_CONFIG.serviceID, EMAILJS_CONFIG.templateID, data)
-    .then((response) => {
+    emailjs
+      .send(EMAILJS_CONFIG.serviceID, EMAILJS_CONFIG.templateID, data)
+      .then((response) => {
         alert("Email sent successfully: " + JSON.stringify(response));
         popupOverlay.classList.remove("active");
         form.reset();
-    })
-    .catch((error) => {
+      })
+      .catch((error) => {
         alert("Error sending email: " + JSON.stringify(error));
-        alert("Error details: " + error.text); 
-    });
-
-    });
+        alert("Error details: " + error.text);
+      });
+  });
 });
